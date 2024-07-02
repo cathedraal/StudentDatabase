@@ -1,4 +1,4 @@
-from studentdatabase import Student
+from studentdatabase import Student, is_student_in_list
 
 
 def test_student_creation():
@@ -26,3 +26,15 @@ def test_student_gender_check_v2():
 
     # Assert
     assert result == (True, "M")
+
+
+def test_is_student_in_list():
+    # Arrange
+    student = Student("Roman Mallindine")
+    list_of_student = [student]
+
+    # Act
+    result = is_student_in_list(list_of_student, "Roman Mallindine")
+
+    # Assert
+    assert result == 0

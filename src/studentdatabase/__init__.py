@@ -3,7 +3,7 @@ This module represents an application that is managing students.
 """
 
 from datetime import datetime
-from typing import Optional, Tuple
+from typing import Optional, Tuple, List
 
 
 class Student:
@@ -125,7 +125,59 @@ class Student:
                 f' {self.group}, {self.department}, {self.faculty}, {self.gender}')
 
 
+def is_student_in_list(students: List[Student], name: str) -> int:
+    for student in students:
+        if student.name == name:
+            return students.index(student)
+    return -1
+
+
 if __name__ == "__main__":
-    print("Hello!")
-    student = Student()
-    student.set_student()
+    list_of_students: List[Student] = []
+    users_answer = -1
+    while users_answer != 4:
+        print("""Hello!
+    This is student´s database!
+    What shall we do?
+    
+    1. Add a student
+    2. Get an existing student
+    3. Delete a student
+    4. End the program
+    """)
+
+        users_correct_answer = False
+        while not users_correct_answer:
+            user = input("Please enter your choice [1-4]: ")
+            if user.isdigit() and 0 < int(user) < 5:
+                users_correct_answer = True
+                users_answer = int(user)
+            else:
+                print("Not a number between 1 and 4!")
+
+        if users_answer == 1:
+            student = Student()
+            student.set_student()
+            list_of_students.append(student)
+        elif users_answer == 2:
+            student_in_the_list = False
+            while not student_in_the_list:
+                answer = input("Please enter student´s name: ")
+                student_index = is_student_in_list(list_of_students, answer)
+                if student_index > -1:
+                    print(list_of_students[student_index].get_student())
+                    student_in_the_list = True
+                else:
+                    print("Student not found!")
+        elif users_answer == 3:
+            student_in_the_list = False
+            while not student_in_the_list:
+                answer = input("Please enter student´s name: ")
+                student_index = is_student_in_list(list_of_students, answer)
+                if student_index > -1:
+                    list_of_students.pop(student_index)
+                    student_in_the_list = True
+                else:
+                    print("Student not found!")
+        elif users_answer == 4:
+            print("Goodbye!")
