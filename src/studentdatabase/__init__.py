@@ -132,52 +132,77 @@ def is_student_in_list(students: List[Student], name: str) -> int:
     return -1
 
 
-if __name__ == "__main__":
+def add_student(list_of_students: List[Student]):
+    student = Student()
+    student.set_student()
+    list_of_students.append(student)
+    print("Student successfully added!")
+
+
+def get_existing_student(list_of_students: List[Student]):
+    student_in_the_list = False
+    while not student_in_the_list:
+        answer = input("Please enter student´s name: ")
+        student_index = is_student_in_list(list_of_students, answer)
+        if student_index > -1:
+            print(list_of_students[student_index].get_student())
+            student_in_the_list = True
+        else:
+            print("Student not found!")
+
+
+def delete_student(list_of_students: List[Student]):
+    student_in_the_list = False
+    while not student_in_the_list:
+        answer = input("Please enter student´s name: ")
+        student_index = is_student_in_list(list_of_students, answer)
+        if student_index > -1:
+            list_of_students.pop(student_index)
+            student_in_the_list = True
+        else:
+            print("Student not found!")
+
+
+def main():
     list_of_students: List[Student] = []
     users_answer = -1
-    while users_answer != 4:
+    while users_answer != 5:
         print("""Hello!
-    This is student´s database!
-    What shall we do?
-    
-    1. Add a student
-    2. Get an existing student
-    3. Delete a student
-    4. End the program
-    """)
+This is student´s database!
+What shall we do?
+
+1. Add a student
+2. Get an existing student
+3. Delete a student
+4. Show all students
+5. End the program
+""")
 
         users_correct_answer = False
         while not users_correct_answer:
-            user = input("Please enter your choice [1-4]: ")
-            if user.isdigit() and 0 < int(user) < 5:
+            user = input("Please enter your choice [1-5]: ")
+            if user.isdigit() and 0 < int(user) < 6:
                 users_correct_answer = True
                 users_answer = int(user)
             else:
-                print("Not a number between 1 and 4!")
+                print("Not a number between 1 and 5!")
 
         if users_answer == 1:
-            student = Student()
-            student.set_student()
-            list_of_students.append(student)
+            add_student(list_of_students)
+
         elif users_answer == 2:
-            student_in_the_list = False
-            while not student_in_the_list:
-                answer = input("Please enter student´s name: ")
-                student_index = is_student_in_list(list_of_students, answer)
-                if student_index > -1:
-                    print(list_of_students[student_index].get_student())
-                    student_in_the_list = True
-                else:
-                    print("Student not found!")
+            get_existing_student(list_of_students)
+
         elif users_answer == 3:
-            student_in_the_list = False
-            while not student_in_the_list:
-                answer = input("Please enter student´s name: ")
-                student_index = is_student_in_list(list_of_students, answer)
-                if student_index > -1:
-                    list_of_students.pop(student_index)
-                    student_in_the_list = True
-                else:
-                    print("Student not found!")
+            delete_student(list_of_students)
+
         elif users_answer == 4:
+            print(f'''The list of the students:
+{list_of_students}''')
+
+        elif users_answer == 5:
             print("Goodbye!")
+
+
+if __name__ == "__main__":
+    main()
