@@ -7,3 +7,11 @@ def test_student_creation():
 
     # Assert
     assert isinstance(student, Student)
+
+
+def test_student_creation_with_name():
+    # Arrange, Act
+    student = Student(name="Roman")
+
+    # Assert
+    assert student.name == "Roman"
