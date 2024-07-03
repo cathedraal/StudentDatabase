@@ -8,3 +8,6 @@ build-backend = "setuptools.build_meta"
 
 [project.optional-dependencies]
 test = ["pytest"]
+
+[project.scripts]
+student-database = "studentdatabase:main"
