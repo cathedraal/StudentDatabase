@@ -3,8 +3,8 @@ This module represents an application that is managing students.
 """
 
 from datetime import datetime
-from typing import Tuple
-
+from typing import Tuple, List
+import json
 
 class Student:
     def __init__(self, name=None, birth_date=None, admission_yr=None, record_book=None,
@@ -129,3 +129,13 @@ class Student:
         """
         return (f'{self.name}, {self.birth_date}, {self.admission_yr}, {self.record_book},'
                 f' {self.group}, {self.department}, {self.faculty}, {self.gender}')
+
+
+def to_json(student: List[Student]) -> str:
+    """
+    TODO
+
+    :param student: TODO
+    :return: TODO
+    """
+    return json.dumps(student, default=lambda obj: obj.__dict__, indent=2)
