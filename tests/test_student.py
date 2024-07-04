@@ -1,4 +1,4 @@
-from studentdatabase import Student
+from studentdatabase import Student, to_json
 
 
 def test_student_creation():
@@ -26,3 +26,14 @@ def test_student_gender_check_v2():
 
     # Assert
     assert result == (True, "M")
+
+
+def test_to_json():
+    # Arrange
+    student = Student(name="Roman")
+
+    # Act
+    result = to_json(student)
+
+    # Assert
+    assert len(result.splitlines()) == 10

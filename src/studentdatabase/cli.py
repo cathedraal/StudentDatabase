@@ -3,8 +3,11 @@ Module which contains CLI code of StudentDatabase.
 """
 import argparse
 from typing import List
+import json
 
 from studentdatabase import Student
+from studentdatabase import to_json
+import os
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -117,7 +120,6 @@ Student succesfully added!
         elif users_answer == 5:
             print("Goodbye!")
 
-
 def main():
     """
     Main entrypoint for the CLI
@@ -126,6 +128,26 @@ def main():
 
     args = parser.parse_args()
     list_of_students: List[Student] = []
+
+    # 1. Check if file exists
+    if os.path.exists("students0.json"):
+        # 2. use "open" to create file descriptor
+        with open("students0.json", encoding="UTF-8") as json_file:
+            # 3. Load the file and json in a single line into a variable
+            student_json = json.load(json_file)
+            # 4. Use a loop to iterate of the variable
+            for student in student_json:
+                # 5. Load each element and append it to the list_of_students
+                list_of_students.append(Student(
+                    name=student["name"],
+                    birth_date=student["birth_date"],
+                    admission_yr=student["admission_yr"],
+                    record_book=student["record_book"],
+                    group=student["group"],
+                    department=student["department"],
+                    faculty=student["faculty"],
+                    gender=student["gender"],
+                ))
 
     if args.operation == "add":
         new_student = Student(
@@ -140,5 +162,21 @@ def main():
         )
         list_of_students.append(new_student)
         print("Student successfully added!")
+        print(list_of_students)
+
+        test = to_json(list_of_students)
+        with open("students0.json", "w", encoding="UTF-8") as file:
+            file.write(test)
+
+        #
+        # with open("students1.json", "w", encoding="UTF-8") as file:
+        #     json.dump(list_of_students, file, default=lambda obj: obj.__dict__, indent=2)
+        #
+        # with open("students2.json", "w", encoding="UTF-8") as file:
+        #     file.write(json.dumps(list_of_students, default=lambda obj: obj.__dict__, indent=2))
+
     if args.operation == "interactive":
         interactive_mode()
+
+
+
