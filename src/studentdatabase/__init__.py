@@ -4,6 +4,8 @@ This module represents an application that is managing students.
 
 from datetime import datetime
 from typing import Optional, Tuple, List
+import argparse
+from argparse import ArgumentParser, Namespace
 
 
 class Student:
@@ -29,6 +31,12 @@ class Student:
         self.department = department
         self.faculty = faculty
         self.gender = gender
+
+    def __str__(self) -> str:
+        return self.get_student()
+
+    def __repr__(self) -> str:
+        return self.get_student()
 
     def check_date(self, date):
         """
@@ -89,7 +97,7 @@ class Student:
         self.name = str(input('Enter surname and lastname: '))
         date_correctly_entered = False
         while not date_correctly_entered:
-            birth_date = str(input("Enter student´s birth date (YY.GG.XXXX): "))
+            birth_date = str(input("Enter student´s birth date (DD.MM.YYYY): "))
             try:
                 datetime.strptime(birth_date, "%d.%m.%Y")
                 self.birth_date = birth_date
@@ -136,7 +144,6 @@ def add_student(list_of_students: List[Student]):
     student = Student()
     student.set_student()
     list_of_students.append(student)
-    print("Student successfully added!")
 
 
 def get_existing_student(list_of_students: List[Student]):
@@ -189,6 +196,15 @@ What shall we do?
 
         if users_answer == 1:
             add_student(list_of_students)
+            print("""
+Student succesfully added! 
+            
+/stop to stop the code""")
+
+            user_menu = str(input())
+            if user_menu == "/stop":
+                print("code stopped.")
+                break
 
         elif users_answer == 2:
             get_existing_student(list_of_students)
@@ -206,3 +222,38 @@ What shall we do?
 
 if __name__ == "__main__":
     main()
+    parser = argparse.ArgumentParser(prog="interactive user input",
+                                     description="This module interacts users input.",
+                                     epilog="End of the arguments.")
+
+    parser.add_argument("operation", choices=["add", "interactive"],
+                        help="Choose an operation: <add> to add a student or <interactive> to see more options.")
+
+    # parser.add_argument("--name", "--birthday", "--admission_year", "--record_book",
+    #                     "--group", "--department", "--faculty", "--gender", help="Adds a student into database.")
+
+    parser.add_argument("-nm=", "--name=", help="Adds a student into database.")
+    parser.add_argument("-bd=", "--birthday=", help="Adds a student into database.")
+    parser.add_argument("-a_y=", "--admission_year=", help="Adds a student into database.")
+    parser.add_argument("-r_b=", "--record_book=", help="Adds a student into database.")
+    parser.add_argument("-gr=", "--group=", help="Adds a student into database.")
+    parser.add_argument("-dp=", "--department=", help="Adds a student into database.")
+    parser.add_argument("-fa=", "--faculty=", help="Adds a student into database.")
+    parser.add_argument("-gd=","--gender=", help="Adds a student into database.")
+
+    args = parser.parse_args()
+    list_of_students: List[Student] = []
+
+    if args.operation == "add":
+
+        add_student(list_of_students)
+        print("Student succesfully added!")
+
+
+
+
+
+
+
+
+
