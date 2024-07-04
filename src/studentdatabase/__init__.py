@@ -3,7 +3,7 @@ This module represents an application that is managing students.
 """
 
 from datetime import datetime
-from typing import Optional, Tuple, List
+from typing import Tuple
 
 
 class Student:
@@ -29,6 +29,12 @@ class Student:
         self.department = department
         self.faculty = faculty
         self.gender = gender
+
+    def __str__(self) -> str:
+        return self.get_student()
+
+    def __repr__(self) -> str:
+        return self.get_student()
 
     def check_date(self, date):
         """
@@ -89,7 +95,7 @@ class Student:
         self.name = str(input('Enter surname and lastname: '))
         date_correctly_entered = False
         while not date_correctly_entered:
-            birth_date = str(input("Enter student´s birth date (YY.GG.XXXX): "))
+            birth_date = str(input("Enter student´s birth date (DD.MM.YYYY): "))
             try:
                 datetime.strptime(birth_date, "%d.%m.%Y")
                 self.birth_date = birth_date
@@ -123,86 +129,3 @@ class Student:
         """
         return (f'{self.name}, {self.birth_date}, {self.admission_yr}, {self.record_book},'
                 f' {self.group}, {self.department}, {self.faculty}, {self.gender}')
-
-
-def is_student_in_list(students: List[Student], name: str) -> int:
-    for student in students:
-        if student.name == name:
-            return students.index(student)
-    return -1
-
-
-def add_student(list_of_students: List[Student]):
-    student = Student()
-    student.set_student()
-    list_of_students.append(student)
-    print("Student successfully added!")
-
-
-def get_existing_student(list_of_students: List[Student]):
-    student_in_the_list = False
-    while not student_in_the_list:
-        answer = input("Please enter student´s name: ")
-        student_index = is_student_in_list(list_of_students, answer)
-        if student_index > -1:
-            print(list_of_students[student_index].get_student())
-            student_in_the_list = True
-        else:
-            print("Student not found!")
-
-
-def delete_student(list_of_students: List[Student]):
-    student_in_the_list = False
-    while not student_in_the_list:
-        answer = input("Please enter student´s name: ")
-        student_index = is_student_in_list(list_of_students, answer)
-        if student_index > -1:
-            list_of_students.pop(student_index)
-            student_in_the_list = True
-        else:
-            print("Student not found!")
-
-
-def main():
-    list_of_students: List[Student] = []
-    users_answer = -1
-    while users_answer != 5:
-        print("""Hello!
-This is student´s database!
-What shall we do?
-
-1. Add a student
-2. Get an existing student
-3. Delete a student
-4. Show all students
-5. End the program
-""")
-
-        users_correct_answer = False
-        while not users_correct_answer:
-            user = input("Please enter your choice [1-5]: ")
-            if user.isdigit() and 0 < int(user) < 6:
-                users_correct_answer = True
-                users_answer = int(user)
-            else:
-                print("Not a number between 1 and 5!")
-
-        if users_answer == 1:
-            add_student(list_of_students)
-
-        elif users_answer == 2:
-            get_existing_student(list_of_students)
-
-        elif users_answer == 3:
-            delete_student(list_of_students)
-
-        elif users_answer == 4:
-            print(f'''The list of the students:
-{list_of_students}''')
-
-        elif users_answer == 5:
-            print("Goodbye!")
-
-
-if __name__ == "__main__":
-    main()
