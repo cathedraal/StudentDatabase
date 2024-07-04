@@ -10,4 +10,4 @@ build-backend = "setuptools.build_meta"
 test = ["pytest"]
 
 [project.scripts]
-student-database = "studentdatabase:main"
+student-database = "studentdatabase.cli:main"
